@@ -1,0 +1,25 @@
+{
+  "name": "Hoàng Dự TV — AI Studio Pro (4K & Color Match)",
+  "short_name": "HD Studio Pro",
+  "description": "Ứng dụng AI Super Upscale 4K V2.1 & Universal Color Matching độc lập vĩnh viễn trên iPhone 15 Pro Max",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#060911",
+  "theme_color": "#080C16",
+  "categories": ["photo", "video", "multimedia"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

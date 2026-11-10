@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Hoàng Dự TV — AI Studio Pro (4K Upscale & Universal Color Match)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HD Studio Pro">
+  <meta name="theme-color" content="#080C16">
+
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css?v=21">
+</head>
+<body>
+
+  <!-- Toast Notification -->
+  <div id="toastBanner" class="toast-banner hidden">✅ Đã sẵn sàng trên iPhone 15 Pro Max!</div>
+
+  <!-- Top Header -->
+  <header class="app-header">
+    <div class="header-top-row">
+      <div class="brand-wrap">
+        <div class="brand-icon">HD</div>
+        <div class="brand-titles">
+          <h1>HOÀNG DỰ TV — AI STUDIO PRO</h1>
+          <div class="brand-badges">
+            <span class="badge-pill badge-cyan">BẢN RIÊNG iPHONE 15 PRO MAX</span>
+            <span class="badge-pill badge-gold">V2.1 4K ULTRA-SHARP</span>
+            <span class="badge-pill badge-green" id="offlineBadge">● ĐỘC LẬP VĨNH VIỄN</span>
+          </div>
+        </div>
+      </div>
+      <button id="btnOpenInstallModal" class="btn-install-top">📲 Cài Vĩnh Viễn</button>
+    </div>
+  </header>
+
+  <!-- Unblocked iOS File Inputs -->
+  <input type="file" id="inputSourceFile" accept="image/*,video/*,.mp4,.mov,.m4v,.jpg,.jpeg,.png,.heic,.webp" style="position:fixed;top:-9999px;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+  <input type="file" id="inputRefFile" accept="image/*,video/*,.mp4,.mov,.m4v,.jpg,.jpeg,.png,.heic,.webp" style="position:fixed;top:-9999px;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+
+  <!-- Quick Import Buttons -->
+  <div class="import-bar">
+    <label for="inputSourceFile" class="btn-file-label btn-source-import">
+      <span>📂 Nạp Ảnh / Video Gốc</span>
+    </label>
+    <label for="inputRefFile" class="btn-file-label btn-ref-import">
+      <span>🎨 Nạp Ảnh / Video Mẫu Màu</span>
+    </label>
+  </div>
+
+  <main class="studio-container">
+    <!-- 1. Interactive Split-Wipe Viewport -->
+    <section class="viewport-card">
+      <div class="viewport-toolbar">
+        <div class="media-info-tag" id="mediaInfoTag">📸 Chân Dung Mẫu Hoàng Dự TV (540×960 ➜ 4K)</div>
+        <div class="viewport-actions">
+          <button id="btnToggleLoupe" class="btn-mini-tool">🔍 Soi Nét 3×</button>
+          <button id="btnResetSplit" class="btn-mini-tool">↔ Chia 50/50</button>
+        </div>
+      </div>
+
+      <div class="canvas-stage" id="canvasStage">
+        <span class="split-badge-left">GỐC (BEFORE)</span>
+        <span class="split-badge-right">ĐÃ NÂNG CẤP 4K V2.1 (AFTER)</span>
+        <canvas id="previewCanvas" width="540" height="960"></canvas>
+        <div class="split-hint-bottom">👆 Chạm & Kéo Ngang Để So Sánh Độ Nét Gốc vs 4K V2.1</div>
+      </div>
+
+      <!-- Video Playback Bar (Visible when Source is Video) -->
+      <div id="videoTransportBar" class="video-transport hidden">
+        <button id="btnPlayPauseVid" class="btn-play-vid">▶ Phát</button>
+        <input type="range" id="videoScrubber" class="vid-scrubber" min="0" max="100" step="0.1" value="0">
+        <span id="videoTimeText" class="vid-time-text">00:00 / 00:00</span>
+      </div>
+    </section>
+
+    <!-- 2. AI Super Upscale V2.1 Controls -->
+    <section class="control-card">
+      <div class="card-title-row">
+        <div class="card-title">⚡ 1. AI Super Upscale V2.1 (Tăng Nét Quang Học Kép)</div>
+        <span class="badge-pill badge-cyan" id="targetResBadge">Đầu ra: 2.0× Super-HD</span>
+      </div>
+
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:5px;font-weight:700;">Hệ số Tăng Độ Phân Giải AI:</div>
+      <div class="Segmented-row" id="scaleModeGroup">
+        <button class="seg-btn" data-scale="1.5x">1.5× Ultra-Crisp</button>
+        <button class="seg-btn active" data-scale="2x">2.0× Super-HD</button>
+        <button class="seg-btn" data-scale="4k">4K (2160×3840)</button>
+      </div>
+
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:5px;font-weight:700;">Tỷ lệ Khung Hình (Mặc định Giữ Nguyên Gốc 100%):</div>
+      <div class="Segmented-row" id="aspectModeGroup">
+        <button class="seg-btn active" data-aspect="source">Giữ Tỷ Lệ Gốc</button>
+        <button class="seg-btn" data-aspect="9:16">9:16 (Shorts/TikTok)</button>
+        <button class="seg-btn" data-aspect="16:9">16:9 (YouTube)</button>
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span>💎 Độ Nét Quang Học V2.1 (Dual-Band Acutance + Chống Viền Trắng)</span>
+          <span class="slider-val" id="valSharpness">84%</span>
+        </div>
+        <input type="range" id="sliderSharpness" class="studio-slider" min="0" max="150" value="84">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span>✨ Tăng Chi Tiết Vi Mô (Tóc, Mắt, Kim Tuyến Áo, Da)</span>
+          <span class="slider-val" id="valMicroDetail">70%</span>
+        </div>
+        <input type="range" id="sliderMicroDetail" class="studio-slider" min="0" max="150" value="70">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span>🛡️ Khử Nhiễu Thông Minh (Mặc định 0% = Tuyệt đối không làm mờ)</span>
+          <span class="slider-val" id="valDenoise">0% (Giữ Nét 100%)</span>
+        </div>
+        <input type="range" id="sliderDenoise" class="studio-slider" min="0" max="100" value="0">
+      </div>
+
+      <div class="toggle-row">
+        <span>🔒 Khóa Chi Tiết Gốc 100% Khi Khớp Màu (Micro-Detail Lock)</span>
+        <input type="checkbox" id="chkDetailLock" checked style="width:18px;height:18px;accent-color:var(--emerald);">
+      </div>
+    </section>
+
+    <!-- 3. Universal Color Matching 100% -->
+    <section class="control-card">
+      <div class="card-title-row">
+        <div class="card-title">🎨 2. Universal Color Matching (Khớp Màu Ảnh & Video Mẫu)</div>
+        <label for="inputRefFile" class="badge-pill badge-gold" style="cursor:pointer;">+ Nạp Mẫu Màu</label>
+      </div>
+
+      <!-- Reference Summary Box -->
+      <div class="ref-summary-box">
+        <img id="refThumbImg" class="ref-thumb" alt="Ref" src="">
+        <div class="ref-meta">
+          <div class="ref-name" id="refNameText">Đang dùng: Preset Hoàng Dự TV — Bolero Vàng Kim</div>
+          <div class="ref-stats-line" id="refStatsText">Bấm "Nạp Ảnh / Video Mẫu Màu" để sao chép 100% tông màu bất kỳ</div>
+        </div>
+      </div>
+
+      <!-- 5-Color HEX Palette Swatches -->
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:5px;font-weight:700;">Bảng 5 Mã Màu Chủ Đạo Trích Xuất (Chạm để sao chép HEX):</div>
+      <div class="palette-row" id="paletteContainer"></div>
+
+      <!-- 6 Built-in Studio Presets -->
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;font-weight:700;">Bộ Lọc Màu Điện Ảnh Hoàng Dự TV / Music (1 Chạm):</div>
+      <div class="preset-grid" id="presetGrid">
+        <button class="preset-btn active" data-preset="bolero_gold">
+          <span class="preset-badge">HOÀNG DỰ TV</span>
+          <span class="preset-name">Bolero Hoàng Gia Vàng Kim</span>
+        </button>
+        <button class="preset-btn" data-preset="neon_vip">
+          <span class="preset-badge">DEMO 11 VIP</span>
+          <span class="preset-name">Neon Tím Hồng VIP</span>
+        </button>
+        <button class="preset-btn" data-preset="bac_ling">
+          <span class="preset-badge">DEMO 10 3D</span>
+          <span class="preset-name">Mẫu Bắc Ling Đỏ Ruby</span>
+        </button>
+        <button class="preset-btn" data-preset="crystal_uhd">
+          <span class="preset-badge">PURE 4K</span>
+          <span class="preset-name">Crystal Trong Trẻo Tự Nhiên</span>
+        </button>
+        <button class="preset-btn" data-preset="cyber_rose">
+          <span class="preset-badge">DEMO 3 REMIX</span>
+          <span class="preset-name">Siêu Xe Hồng Ngọc Rose</span>
+        </button>
+        <button class="preset-btn" data-preset="none">
+          <span class="preset-badge">GỐC 100%</span>
+          <span class="preset-name">Màu Gốc (Chỉ Tăng Nét AI)</span>
+        </button>
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span>🎯 Cường Độ Khớp Màu 3D LUT (Color Match Strength)</span>
+          <span class="slider-val" id="valLutStrength">100%</span>
+        </div>
+        <input type="range" id="sliderLutStrength" class="studio-slider" min="0" max="100" value="100">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span>🧑 Bảo Vệ Da Mặt Ca Sĩ Tự Nhiên (Skin-Tone Shield)</span>
+          <span class="slider-val" id="valSkinShield">65%</span>
+        </div>
+        <input type="range" id="sliderSkinShield" class="studio-slider" min="0" max="100" value="65">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span>☀️ Độ Sáng (Brightness) & Tương Phản Điện Ảnh (Contrast)</span>
+          <span class="slider-val" id="valBrightContrast">0 / +8</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <input type="range" id="sliderBrightness" class="studio-slider" min="-40" max="40" value="0">
+          <input type="range" id="sliderContrast" class="studio-slider" min="-40" max="50" value="8">
+        </div>
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span>🌈 Độ Tươi Màu (Saturation) & Độ Ấm Vàng (Warmth)</span>
+          <span class="slider-val" id="valSatWarm">+10 / +4</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <input type="range" id="sliderSaturation" class="studio-slider" min="-50" max="60" value="10">
+          <input type="range" id="sliderWarmth" class="studio-slider" min="-40" max="40" value="4">
+        </div>
+      </div>
+
+      <!-- Live RGB Histogram -->
+      <div class="hist-wrap">
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:3px;font-weight:700;">
+          <span>BIỂU ĐỒ SÓNG MÀU RGB PARADE & LUMA (THỜI GIAN THỰC)</span>
+          <span>33×33×33 3D LUT</span>
+        </div>
+        <canvas id="histogramCanvas" width="320" height="64"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sticky Bottom Action Bar -->
+  <div class="bottom-export-bar">
+    <button id="btnExportCubeLut" class="btn-export-cube">📦 Lưu .CUBE LUT</button>
+    <button id="btnStartExport" class="btn-export-main">
+      <span>⚡ XUẤT ẢNH 4K / VIDEO MP4 SIÊU NÉT</span>
+    </button>
+  </div>
+
+  <!-- Export Progress & iOS Save Modal -->
+  <div id="exportModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div style="font-size:15px;font-weight:900;color:var(--gold-light);" id="exportModalTitle">⚡ Đang Kết Xuất Siêu Nét V2.1...</div>
+        <button id="btnCloseExportModal" class="btn-mini-tool">✕ Đóng</button>
+      </div>
+
+      <div id="exportProgressSection">
+        <div style="background:#070A12;border-radius:999px;height:10px;overflow:hidden;border:1px solid var(--border-subtle);margin-bottom:8px;">
+          <div id="exportProgressBar" style="width:15%;height:100%;background:linear-gradient(90deg,#00E5FF,#FFC400);transition:width 0.15s;"></div>
+        </div>
+        <div id="exportStatusText" style="font-size:12px;color:#E2E8F0;font-weight:700;text-align:center;">Đang xử lý trên chip Apple A17 Pro...</div>
+      </div>
+
+      <div id="exportResultSection" class="hidden" style="margin-top:10px;">
+        <div style="padding:10px;background:rgba(0,230,118,0.1);border:1px solid var(--emerald);border-radius:10px;margin-bottom:10px;">
+          <div style="font-size:13px;font-weight:800;color:var(--emerald);" id="exportDoneTitle">🎉 ĐÃ XUẤT XONG TRÊN IPHONE 15 PRO MAX!</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px;" id="exportDoneMeta">Độ phân giải 4K Ultra-Sharp V2.1</div>
+        </div>
+
+        <button id="btnIosNativeShare" class="btn-share-ios">📲 LƯU VÀO ALBUM ẢNH IPHONE / ZALO / TIKTOK</button>
+        <a id="btnIosDirectDownload" href="#" download="" class="btn-download-ios">📥 TẢI TRỰC TIẾP VỀ TỆP (FILES) TRÊN IPHONE</a>
+
+        <div style="font-size:11px;color:var(--gold-light);margin-top:10px;line-height:1.4;background:rgba(255,196,0,0.08);padding:8px;border-radius:8px;">
+          💡 <b>Mẹo iPhone 15 Pro Max:</b> Bấm nút màu xanh lá <b>"Lưu Vào Album Ảnh iPhone"</b> rồi chọn <b>"Lưu Hình Ảnh (Save Image)"</b> hoặc <b>"Lưu Video (Save Video)"</b> để vào thẳng Thư viện Ảnh!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Permanent Install Guide Modal for iPhone 15 Pro Max -->
+  <div id="installModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div style="font-size:15px;font-weight:900;color:var(--cyan);">📲 Cài Vĩnh Viễn Lên iPhone 15 Pro Max</div>
+        <button id="btnCloseInstallModal" class="btn-mini-tool">✕ Đóng</button>
+      </div>
+      <div style="font-size:12.5px;line-height:1.55;color:#E2E8F0;">
+        <p style="margin-top:0;">Ứng dụng này được trang bị <b>Bộ Nhớ Đệm Vĩnh Viễn (Immortal Service Worker v21)</b> + <b>Động Cơ Apple A17 Pro Độc Lập 100%</b>. Sau khi thêm vào Màn hình chính, app hoạt động <b>vĩnh viễn suốt đời ngay cả khi tắt máy tính hoặc không có mạng</b>:</p>
+        <div style="background:#080D1A;border:1px solid var(--border-gold);border-radius:12px;padding:12px;margin-bottom:10px;">
+          <div><b>Bước 1:</b> Mở đường link này bằng trình duyệt <b>Safari</b> trên iPhone 15 Pro Max.</div>
+          <div style="margin-top:6px;"><b>Bước 2:</b> Bấm nút <b>Chia sẻ (Share ⬆️)</b> ở thanh dưới cùng Safari.</div>
+          <div style="margin-top:6px;"><b>Bước 3:</b> Cuộn xuống chọn <b>"Thêm vào Màn hình chính" (Add to Home Screen ➕)</b> ➜ Bấm <b>Thêm (Add)</b>.</div>
+        </div>
+        <button id="btnDownloadStandaloneHtml" class="btn-share-ios" style="background:linear-gradient(135deg,#FFC400,#FF8800);">
+          📦 Tải Bản File .HTML Độc Lập Lưu Vào Tệp (Files) iPhone
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="mp4-muxer.min.js"></script>
+  <script src="core-cinema-engine.js?v=21"></script>
+  <script src="app.js?v=21"></script>
+  <script>
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js?v=21').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

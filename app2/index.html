@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Hoàng Dự TV — MEGA STUDIO All-In-One (iPhone 15 Pro Max)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HD MEGA Studio">
+  <meta name="theme-color" content="#0A0818">
+
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css?v=21">
+</head>
+<body>
+
+  <div id="toastMsg" class="toast-msg hidden">✨ Hoàng Dự MEGA STUDIO sẵn sàng!</div>
+
+  <!-- Top Safe-Area Header -->
+  <header class="mega-header">
+    <div class="header-row">
+      <div class="brand-box">
+        <div class="brand-crest">MEGA</div>
+        <div class="brand-info">
+          <h1>HOÀNG DỰ TV — MEGA STUDIO ALL-IN-ONE</h1>
+          <div class="badge-row">
+            <span class="pill pill-pink">4 TRONG 1 VIP</span>
+            <span class="pill pill-gold">iPHONE 15 PRO MAX</span>
+            <span class="pill pill-emerald">● ĐỘC LẬP VĨNH VIỄN</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Unblocked iOS File Inputs -->
+  <input type="file" id="inTab1Source" accept="image/*,video/*,.mp4,.mov,.m4v,.jpg,.jpeg,.png,.heic,.webp" style="position:fixed;top:-9999px;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+  <input type="file" id="inTab1Ref" accept="image/*,video/*,.mp4,.mov,.m4v,.jpg,.jpeg,.png,.heic,.webp" style="position:fixed;top:-9999px;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+  <input type="file" id="inTab2Bg" accept="image/*,video/*,.mp4,.mov,.m4v,.jpg,.jpeg,.png" style="position:fixed;top:-9999px;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+  <input type="file" id="inTab2Audio" accept="audio/*,video/*,.mp3,.wav,.m4a,.aac,.flac,.mp4,.mov" style="position:fixed;top:-9999px;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+  <input type="file" id="inTab3Audio" accept="audio/*,video/*,.mp3,.wav,.m4a,.aac,.flac,.mp4,.mov" style="position:fixed;top:-9999px;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+
+  <!-- =====================================================================
+       TAB 1: AI SUPER UPSCALE V2.1 (4K) & UNIVERSAL COLOR MATCHING 100%
+       ===================================================================== -->
+  <section id="tabPane1" class="tab-pane active">
+    <div class="import-grid-2">
+      <label for="inTab1Source" class="btn-upload-label btn-cyan-grad">📂 Nạp Ảnh / Video Gốc</label>
+      <label for="inTab1Ref" class="btn-upload-label btn-pink-grad">🎨 Nạp Ảnh / Video Mẫu Màu</label>
+    </div>
+
+    <div class="studio-card cyan-border">
+      <div class="card-head">
+        <span class="card-head-title" id="t1MediaLabel">📸 Chân Dung Hoàng Dự TV (Gốc vs 4K V2.1)</span>
+        <div style="display:flex;gap:5px;">
+          <button id="t1BtnLoupe" class="seg-item" style="padding:4px 8px;">🔍 Soi 3×</button>
+          <button id="t1BtnPlayVid" class="seg-item" style="padding:4px 8px;display:none;color:var(--cyan);">▶ Phát</button>
+        </div>
+      </div>
+
+      <div class="canvas-box" id="t1CanvasStage">
+        <canvas id="t1PreviewCanvas" width="540" height="960"></canvas>
+      </div>
+      <div style="font-size:10.5px;color:var(--gold-light);text-align:center;margin-top:6px;font-weight:700;">
+        👆 Chạm & kéo ngang trên ảnh để so sánh: Trái = GỐC | Phải = ĐÃ NÂNG CẤP 4K V2.1 + KHỚP MÀU
+      </div>
+    </div>
+
+    <div class="studio-card">
+      <div class="card-head">
+        <span class="card-head-title">⚡ AI Super Upscale V2.1 (Tăng Nét Kim Cương)</span>
+        <span class="pill pill-gold" id="t1OutResBadge">2.0× Super-HD</span>
+      </div>
+
+      <div class="seg-3" id="t1ScaleGroup">
+        <button class="seg-item" data-scale="1.5x">1.5× Crisp</button>
+        <button class="seg-item active" data-scale="2x">2.0× Super-HD</button>
+        <button class="seg-item" data-scale="4k">4K Ultra-HD</button>
+      </div>
+
+      <div class="seg-3" id="t1AspectGroup">
+        <button class="seg-item active" data-aspect="source">Giữ Tỷ Lệ Gốc</button>
+        <button class="seg-item" data-aspect="9:16">9:16 Dọc</button>
+        <button class="seg-item" data-aspect="16:9">16:9 Ngang</button>
+      </div>
+
+      <div class="slider-row">
+        <div class="slider-top"><span>💎 Độ Nét Quang Học V2.1 (Chống viền trắng)</span><span id="t1ValSharp">84%</span></div>
+        <input type="range" id="t1SliderSharp" class="mega-slider" min="0" max="150" value="84">
+      </div>
+      <div class="slider-row">
+        <div class="slider-top"><span>✨ Chi Tiết Vi Mô (Tóc, Mắt, Kim Tuyến)</span><span id="t1ValMicro">70%</span></div>
+        <input type="range" id="t1SliderMicro" class="mega-slider" min="0" max="150" value="70">
+      </div>
+      <div class="slider-row">
+        <div class="slider-top"><span>🛡️ Khử Nhiễu (Mặc định 0% = Không làm mờ)</span><span id="t1ValDenoise">0%</span></div>
+        <input type="range" id="t1SliderDenoise" class="mega-slider" min="0" max="100" value="0">
+      </div>
+    </div>
+
+    <div class="studio-card neon-border">
+      <div class="card-head">
+        <span class="card-head-title">🎨 Universal Color Matching 100%</span>
+        <span class="pill pill-pink" id="t1ActiveColorLabel">Preset: Bolero Vàng Kim</span>
+      </div>
+
+      <div class="palette-5" id="t1PaletteRow"></div>
+
+      <div class="seg-2" id="t1PresetGroup">
+        <button class="seg-item active" data-preset="bolero_gold">✨ Bolero Vàng Kim</button>
+        <button class="seg-item" data-preset="neon_vip">💜 Neon Tím Hồng DEMO 11</button>
+        <button class="seg-item" data-preset="bac_ling">🏮 Mẫu Bắc Ling DEMO 10</button>
+        <button class="seg-item" data-preset="crystal_uhd">💎 Crystal Trong Trẻo</button>
+        <button class="seg-item" data-preset="cyber_rose">🌸 Siêu Xe Hồng Ngọc</button>
+        <button class="seg-item" data-preset="none">📷 Màu Gốc (Chỉ Tăng Nét)</button>
+      </div>
+
+      <div class="slider-row">
+        <div class="slider-top"><span>🎯 Cường Độ Khớp Màu 3D LUT</span><span id="t1ValLut">100%</span></div>
+        <input type="range" id="t1SliderLut" class="mega-slider" min="0" max="100" value="100">
+      </div>
+      <div class="slider-row">
+        <div class="slider-top"><span>🧑 Bảo Vệ Da Mặt Ca Sĩ (Skin Shield)</span><span id="t1ValSkin">65%</span></div>
+        <input type="range" id="t1SliderSkin" class="mega-slider" min="0" max="100" value="65">
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button id="t1BtnExportCube" class="seg-item" style="flex:0 0 auto;padding:12px;color:var(--cyan);border-color:var(--cyan);">📦 .CUBE LUT</button>
+        <button id="t1BtnExportMedia" class="btn-cta-gold">⚡ XUẤT ẢNH 4K / VIDEO MP4 SIÊU NÉT</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       TAB 2: XƯỞNG DỰNG MV SÓNG NHẠC 3D & CHẠY CHỮ KARAOKE (DEMO 6-11)
+       ===================================================================== -->
+  <section id="tabPane2" class="tab-pane">
+    <div class="import-grid-2">
+      <label for="inTab2Bg" class="btn-upload-label btn-cyan-grad">🖼️ Đổi Ảnh/Video Nền MV</label>
+      <label for="inTab2Audio" class="btn-upload-label btn-pink-grad">🎵 Nạp Nhạc (MP3/WAV/Video)</label>
+    </div>
+
+    <div class="studio-card neon-border">
+      <div class="card-head">
+        <span class="card-head-title">🎬 Sân Khấu MV Sóng Nhạc 3D & Karaoke 60FPS</span>
+        <button id="t2BtnPlayMv" class="seg-item active" style="padding:5px 12px;">▶ Phát Thử MV</button>
+      </div>
+
+      <div class="canvas-box" style="height:420px;">
+        <canvas id="t2MvCanvas" width="540" height="960"></canvas>
+      </div>
+    </div>
+
+    <div class="studio-card">
+      <div class="card-head">
+        <span class="card-head-title">🏆 Chọn Phong Cách Skill & Kênh Thương Hiệu</span>
+      </div>
+
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:5px;font-weight:700;">Kênh Thương Hiệu Độc Quyền (Chuẩn quy tắc bỏ chữ "Nhạc sĩ"):</div>
+      <div class="seg-2" id="t2ChannelGroup">
+        <button class="seg-item active" data-channel="HOÀNG DỰ TV">📺 HOÀNG DỰ TV (Bolero)</button>
+        <button class="seg-item" data-channel="HOÀNG DỰ MUSIC">🎧 HOÀNG DỰ MUSIC (Remix)</button>
+      </div>
+
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:5px;font-weight:700;">4 Phong Cách Sóng Nhạc 3D & Chữ Nghệ Thuật:</div>
+      <div class="seg-2" id="t2StyleGroup">
+        <button class="seg-item active" data-style="demo11">💜 DEMO 11: Sóng 3D Tím Hồng VIP</button>
+        <button class="seg-item" data-style="demo10">🏮 DEMO 10: Mẫu Bắc Ling Chữ 3D</button>
+        <button class="seg-item" data-style="demo7">👑 DEMO 7: Sóng Đôi Hoàng Gia</button>
+        <button class="seg-item" data-style="demo6">🎤 DEMO 6: Karaoke Đỏ Viền Trắng</button>
+      </div>
+
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;font-weight:700;">Tên Bài Hát & Credit Chuẩn Hoàng Dự:</div>
+      <input type="text" id="t2SongTitle" class="input-studio" value="ĐỜI NÀY TA VUI">
+      <input type="text" id="t2SongCredit" class="input-studio" value="Sáng tác: Hoàng Dự • Giọng Ca: AI Cover">
+
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;font-weight:700;">Lời Chạy Chữ Karaoke 2 Dòng (Mỗi câu 1 dòng):</div>
+      <textarea id="t2LyricsInput" class="input-studio" rows="4">Đời này ta vui cùng tiếng ca cung đàn
+Men rượu nồng say quên hết bao trái ngang
+Hoàng Dự trao lời ca ngọt ngào sâu lắng
+Đêm hội tưng bừng rực sáng ánh hào quang</textarea>
+
+      <button id="t2BtnRenderMv" class="btn-cta-gold">🎬 XUẤT VIDEO MV SÓNG NHẠC 3D (.MP4) NGAY TRÊN IPHONE</button>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       TAB 3: TRẠM DSP MASTERING ÂM THANH PHÒNG THU (-13.0 LUFS / 96kHz)
+       ===================================================================== -->
+  <section id="tabPane3" class="tab-pane">
+    <div class="studio-card cyan-border">
+      <div class="card-head">
+        <span class="card-head-title">🎚️ Trạm DSP Mastering Phòng Thu (-13.0 LUFS)</span>
+        <label for="inTab3Audio" class="pill pill-gold" style="cursor:pointer;padding:5px 10px;">+ Nạp File Nhạc/Video</label>
+      </div>
+
+      <div style="font-size:12px;font-weight:800;color:var(--cyan);margin-bottom:8px;" id="t3TrackTitle">
+        🎵 Đang sẵn sàng: Bộ Tổng Hợp Âm Thanh Phòng Thu Hoàng Dự
+      </div>
+
+      <canvas id="t3SpectrumCanvas" width="480" height="110" style="width:100%;height:110px;background:#05040D;border-radius:10px;border:1px solid var(--border-subtle);margin-bottom:10px;"></canvas>
+
+      <div class="seg-2" style="margin-bottom:12px;">
+        <button id="t3BtnPlayAudio" class="seg-item active">▶ Nghe Thử Master</button>
+        <button id="t3BtnBypass" class="seg-item">🔊 Đang Bật: STUDIO MASTER</button>
+      </div>
+
+      <div class="slider-row">
+        <div class="slider-top"><span>🥁 Bass Punch 75Hz (Lực Trống Ấm Sâu)</span><span id="t3ValBass">+3.5 dB</span></div>
+        <input type="range" id="t3SliderBass" class="mega-slider" min="0" max="9" step="0.5" value="3.5">
+      </div>
+      <div class="slider-row">
+        <div class="slider-top"><span>🎙️ Warm Vocal 240Hz (Độ Dày Giọng Hát)</span><span id="t3ValWarm">+1.6 dB</span></div>
+        <input type="range" id="t3SliderWarm" class="mega-slider" min="-3" max="6" step="0.2" value="1.6">
+      </div>
+      <div class="slider-row">
+        <div class="slider-top"><span>✨ Vocal Air & Shimmer 5.2kHz (Độ Sáng Trong)</span><span id="t3ValAir">+2.2 dB</span></div>
+        <input type="range" id="t3SliderAir" class="mega-slider" min="0" max="8" step="0.2" value="2.2">
+      </div>
+      <div class="slider-row">
+        <div class="slider-top"><span>🚀 Brickwall Master Gain (Chuẩn -13.0 LUFS)</span><span id="t3ValGain">+2.0 dB</span></div>
+        <input type="range" id="t3SliderGain" class="mega-slider" min="0" max="8" step="0.5" value="2.0">
+      </div>
+
+      <button id="t3BtnExportWav" class="btn-cta-gold" style="margin-top:8px;">
+        🎵 XUẤT FILE NHẠC MASTERED (WAV LOSSLESS 24-BIT)
+      </button>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       TAB 4: CÀI VĨNH VIỄN TRÊN IPHONE 15 PRO MAX & HỆ SINH THÁI HUB
+       ===================================================================== -->
+  <section id="tabPane4" class="tab-pane">
+    <div class="studio-card neon-border">
+      <div class="card-head">
+        <span class="card-head-title">📲 Trạng Thái Độc Lập Vĩnh Viễn (iPhone 15 Pro Max)</span>
+        <span class="pill pill-emerald">IMMORTAL V21</span>
+      </div>
+      <div style="font-size:12.5px;line-height:1.55;color:#E2E8F0;">
+        <div style="padding:10px;background:rgba(0,230,118,0.10);border:1px solid var(--emerald);border-radius:10px;margin-bottom:10px;">
+          ✅ <b>Động cơ Apple A17 Pro Client-Side 100%:</b> Mọi tính năng (Tăng nét 4K V2.1, Khớp màu Universal 3D LUT, Dựng MV Sóng Nhạc 3D DEMO 6–11, và Mastering Âm Thanh) đều chạy trực tiếp trên chip iPhone 15 Pro Max — <b>không cần bật máy tính PC, không bao giờ hết hạn chứng chỉ!</b>
+        </div>
+        <div style="background:#080714;border:1px solid var(--gold);border-radius:12px;padding:12px;margin-bottom:10px;">
+          <div style="font-weight:800;color:var(--gold-light);margin-bottom:6px;">Cách ghim App Vĩnh Viễn lên Màn hình chính iPhone 15 Pro Max:</div>
+          <div>1️⃣ Mở link này bằng <b>Safari</b> trên iPhone 15 Pro Max.</div>
+          <div style="margin-top:4px;">2️⃣ Bấm nút <b>Chia sẻ (Share ⬆️)</b> ở thanh dưới cùng.</div>
+          <div style="margin-top:4px;">3️⃣ Chọn <b>"Thêm vào Màn hình chính" (Add to Home Screen ➕)</b> ➜ Bấm <b>Thêm</b>.</div>
+        </div>
+        <button id="t4BtnDownloadHtml" class="btn-cta-gold">
+          📦 TẢI BẢN FILE .HTML ALL-IN-ONE LƯU VÀO TỆP (FILES) IPHONE
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom Floating iOS 18 Tab Bar -->
+  <nav class="ios-tab-bar">
+    <button class="tab-btn active" data-tab="tabPane1">
+      <span class="tab-icon">✨</span>
+      <span>Nét 4K & Màu</span>
+    </button>
+    <button class="tab-btn" data-tab="tabPane2">
+      <span class="tab-icon">🎬</span>
+      <span>Dựng MV 3D</span>
+    </button>
+    <button class="tab-btn" data-tab="tabPane3">
+      <span class="tab-icon">🎚️</span>
+      <span>Mastering</span>
+    </button>
+    <button class="tab-btn" data-tab="tabPane4">
+      <span class="tab-icon">📲</span>
+      <span>Cài Vĩnh Viễn</span>
+    </button>
+  </nav>
+
+  <!-- Shared Export & Save Modal -->
+  <div id="megaExportModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div style="font-size:14.5px;font-weight:900;color:var(--gold-light);" id="megaModalTitle">⚡ Đang Xử Lý Trên iPhone 15 Pro Max...</div>
+        <button id="megaBtnCloseModal" class="seg-item" style="padding:4px 9px;">✕ Đóng</button>
+      </div>
+      <div style="background:#06050E;height:10px;border-radius:999px;overflow:hidden;margin-bottom:8px;">
+        <div id="megaProgressBar" style="width:20%;height:100%;background:linear-gradient(90deg,#FF1EA0,#FFC400,#00E5FF);"></div>
+      </div>
+      <div id="megaStatusText" style="font-size:12px;color:#E2E8F0;text-align:center;font-weight:700;">Đang khởi chạy...</div>
+
+      <div id="megaResultBox" class="hidden" style="margin-top:12px;">
+        <button id="megaBtnShareIos" class="btn-cta-gold" style="background:linear-gradient(135deg,#00E676,#00B0FF);margin-bottom:8px;">
+          📲 LƯU VÀO ALBUM ẢNH IPHONE / ZALO / TIKTOK
+        </button>
+        <a id="megaBtnDirectDownload" href="#" download="" style="display:flex;justify-content:center;padding:12px;border-radius:12px;background:rgba(255,255,255,0.08);border:1px solid var(--cyan);color:#FFF;text-decoration:none;font-weight:800;font-size:12.5px;">
+          📥 TẢI VỀ TỆP (FILES) TRÊN IPHONE
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="mp4-muxer.min.js"></script>
+  <script src="lame.min.js"></script>
+  <script src="core-cinema-engine.js?v=21"></script>
+  <script src="app.js?v=21"></script>
+  <script>
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js?v=21').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
